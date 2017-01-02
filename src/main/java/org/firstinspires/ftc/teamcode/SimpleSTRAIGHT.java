@@ -56,7 +56,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ProutBot: Simple RED", group="ProutBot")
+@Autonomous(name="ProutBot: Simple STRAIGHT", group="ProutBot")
 
 public class SimpleSTRAIGHT extends LinearOpMode {
 
