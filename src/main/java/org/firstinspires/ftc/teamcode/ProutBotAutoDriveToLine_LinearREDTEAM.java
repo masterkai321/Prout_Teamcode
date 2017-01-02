@@ -130,7 +130,7 @@ public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
         }
         robot.rrMotor.setPower(0.0);
         robot.rlMotor.setPower(0.0);
-        robot.ShootParticle(0.12, 4.0, 3.0);
+        robot.ShootParticle(0.10, 4.0, 3.0);
 
 
         //Aim Towards Beacons

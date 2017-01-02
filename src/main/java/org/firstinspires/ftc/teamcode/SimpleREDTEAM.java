@@ -120,7 +120,7 @@ public class SimpleREDTEAM extends LinearOpMode {
         }
         robot.rrMotor.setPower(0.0);
         robot.rlMotor.setPower(0.0);
-        robot.ShootParticle(0.13, 4.0, 3.0);
+        robot.ShootParticle(0.10, 4.0, 3.0);
 
         //Aim Back Towards center and move to hit ball
         while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing)) {

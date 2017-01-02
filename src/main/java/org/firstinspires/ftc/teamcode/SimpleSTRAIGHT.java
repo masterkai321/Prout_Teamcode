@@ -56,9 +56,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ProutBot: Simple BLUE", group="ProutBot")
+@Autonomous(name="ProutBot: Simple RED", group="ProutBot")
 
-public class SimpleBLUETEAM extends LinearOpMode {
+public class SimpleSTRAIGHT extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareProutBot         robot   = new HardwareProutBot();   // Use a Pushbot's hardware
@@ -107,32 +107,15 @@ public class SimpleBLUETEAM extends LinearOpMode {
             idle();
         }
 
-        // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 10)) {
-
-            robot.rlMotor.setPower(-0.5);
-
-            telemetry.addData("Leg 1: %2.5f Sec Elapsed", runtime.seconds());
-            telemetry.addData("Original Bearing", robot.initialBearing);
-            telemetry.addData("Bearing", robot.compassSensor.getDirection());
-            telemetry.update();
-            idle();
-        }
-        robot.rrMotor.setPower(0.0);
-        robot.rlMotor.setPower(0.0);
         robot.ShootParticle(0.10, 4.0, 3.0);
-
-        //Aim Back Towards center and move to hit ball
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialBearing)) {
-            robot.rrMotor.setPower(-0.5);
-        }
-        robot.rrMotor.setPower(0.0);
 
         runtime.reset();
         while (opModeIsActive() && runtime.seconds() < 15) {
             robot.rrMotor.setPower(-1.0);
             robot.rlMotor.setPower(-1.0);
         }
+
+
 
     }
 }
