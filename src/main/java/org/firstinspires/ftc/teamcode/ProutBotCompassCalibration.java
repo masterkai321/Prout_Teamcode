@@ -58,7 +58,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="Concept: Compass Calibration", group="Concept")
-@Disabled
+
 public class ProutBotCompassCalibration extends LinearOpMode {
 
     /* Declare OpMode members. */
