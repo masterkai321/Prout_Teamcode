@@ -54,6 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="ProutBot: Test", group="ProutBot")
+@Disabled
 public class TestOp extends OpMode{
 
     /* Declare OpMode members. */

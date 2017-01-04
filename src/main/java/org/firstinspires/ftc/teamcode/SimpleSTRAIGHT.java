@@ -107,7 +107,7 @@ public class SimpleSTRAIGHT extends LinearOpMode {
             idle();
         }
 
-        robot.ShootParticle(0.10, 4.0, 3.0);
+        robot.ShootParticle(robot.PITCH_POWER, 4.0, 3.0);
 
         runtime.reset();
         while (opModeIsActive() && runtime.seconds() < 15) {

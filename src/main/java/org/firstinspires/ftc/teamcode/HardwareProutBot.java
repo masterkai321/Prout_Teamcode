@@ -50,7 +50,7 @@ public class HardwareProutBot
     public static final double DRIVE_POWER  = 1.0;
     public static final double RIGHT_BUTTON = 0.0;
     public static final double LEFT_BUTTON = 0.9;
-    public double PITCH_POWER  = 0.10;
+    public double PITCH_POWER  = 0.12;
     public double initialBearing;
     public double initialtoZero;
 
@@ -163,6 +163,8 @@ public class HardwareProutBot
             colorSensor = hwMap.colorSensor.get("color");
             clightSensor = hwMap.lightSensor.get("center light");
             //oDis = hwMap.opticalDistanceSensor.get("ods");
+
+            compassSensor.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
 
             colorSensor.enableLed(false);
             Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
