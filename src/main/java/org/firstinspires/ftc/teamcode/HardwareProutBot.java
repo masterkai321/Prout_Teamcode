@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -48,11 +49,11 @@ public class HardwareProutBot
     public static final double GATE_OPEN    = 1.0;
     public static final double BRUSH_POWER  = 1.0;
     public static final double DRIVE_POWER  = 1.0;
-    public static final double RIGHT_BUTTON = 0.0;
-    public static final double LEFT_BUTTON = 0.9;
+    public static final double LEFT_BUTTON = 0.0;
+    public static final double RIGHT_BUTTON = 0.9;
     public double PITCH_POWER  = 0.12;
-    public double initialBearing;
-    public double initialtoZero;
+    public int heading = 0;
+    public int initialheading;
 
 
 
@@ -66,6 +67,7 @@ public class HardwareProutBot
     CompassSensor    compassSensor;
     OpticalDistanceSensor oDis;
     ColorSensor colorSensor;
+    ModernRoboticsI2cGyro gyro;
 
 
 
@@ -163,6 +165,8 @@ public class HardwareProutBot
             colorSensor = hwMap.colorSensor.get("color");
             clightSensor = hwMap.lightSensor.get("center light");
             //oDis = hwMap.opticalDistanceSensor.get("ods");
+            gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+
 
             compassSensor.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
 
@@ -187,7 +191,10 @@ public class HardwareProutBot
             buttonServo = hwMap.servo.get("button servo");
             buttonServo.setPosition(0.0);
 
-            initialBearing = compassSensor.getDirection();
+            gyro.calibrate();
+            initialheading = gyro.getHeading();
+
+
 
 
         }

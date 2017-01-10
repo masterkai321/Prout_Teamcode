@@ -33,6 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -57,7 +58,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ProutBot: Auto Drive To Line BLUE", group="ProutBot")
-
+@Disabled
 public class ProutBotAutoDriveToLine_LinearBLUETEAM extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -113,7 +114,7 @@ public class ProutBotAutoDriveToLine_LinearBLUETEAM extends LinearOpMode {
         }
 
         // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 2 )) {
+        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 5 )) {
 
             robot.rlMotor.setPower(-0.5);
 
@@ -131,7 +132,7 @@ public class ProutBotAutoDriveToLine_LinearBLUETEAM extends LinearOpMode {
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 20 )) {
+        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 27 )) {
             robot.rlMotor.setPower(-0.5);
             robot.rrMotor.setPower(0.5);
             telemetry.addData("Original Bearing", robot.initialBearing);
@@ -157,7 +158,7 @@ public class ProutBotAutoDriveToLine_LinearBLUETEAM extends LinearOpMode {
         sleep(1000);
 
         //Adjust onto Line towards Beacon and Move Forward Until Set Distance from beacon
-        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 48)) {
+        while (opModeIsActive() && (robot.compassSensor.getDirection() < robot.initialBearing + 52)) {
             telemetry.addData("Original Bearing", robot.initialBearing);
             telemetry.addData("Bearing", robot.compassSensor.getDirection());
             telemetry.addLine("Aiming Towards Beacon");

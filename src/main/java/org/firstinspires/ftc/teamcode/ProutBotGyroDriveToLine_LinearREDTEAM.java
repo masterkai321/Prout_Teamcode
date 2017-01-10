@@ -33,15 +33,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CompassSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.LightSensor;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving up to a line and then stopping.
@@ -63,12 +56,12 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ProutBot: Auto Drive To Line RED", group="ProutBot")
-@Disabled
-public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
+@Autonomous(name="ProutBot: Gyro Drive To Line RED", group="ProutBot")
+
+public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareProutBot         robot   = new HardwareProutBot();   // Use a Pushbot's hardware
+    HardwareProutBot         robot   = new HardwareProutBot();   // Use a Proutbot's hardware
     private ElapsedTime              runtime = new ElapsedTime();
 
 
@@ -111,22 +104,35 @@ public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
             telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
             telemetry.addData("Back Distance", robot.backDis.getUltrasonicLevel());
             telemetry.addData("Front Distance", robot.frontDis.getUltrasonicLevel());
-            telemetry.addData("Original Bearing", robot.initialBearing);
-            telemetry.addData("Bearing", robot.compassSensor.getDirection());
+            telemetry.addData("Original Heading", robot.initialheading);
+
+            // start calibrating the gyro.
+            telemetry.addData(">", "Gyro Calibrating. Do Not move!");
+            telemetry.update();
+
+
+            // make sure the gyro is calibrated.
+            while (!isStopRequested() && robot.gyro.isCalibrating())  {
+                sleep(50);
+                idle();
+            }
+
+            telemetry.addData(">", "Gyro Calibrated.  Press Start.");
+            telemetry.update();
 
             telemetry.update();
             idle();
         }
 
         // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialBearing - 3)) {
+        while (opModeIsActive() && (robot.gyro.getHeading() > robot.initialheading - 10)) {
 
             robot.rrMotor.setPower(-0.5);
             robot.rlMotor.setPower(0.1);
 
             telemetry.addData("Leg 1: %2.5f Sec Elapsed", runtime.seconds());
-            telemetry.addData("Original Bearing", robot.initialBearing);
-            telemetry.addData("Bearing", robot.compassSensor.getDirection());
+            telemetry.addData("Original Bearing", robot.initialheading);
+            telemetry.addData("Bearing", robot.gyro.getHeading());
             telemetry.addLine("Aiming Towards Vortex");
             telemetry.update();
             idle();
@@ -137,11 +143,11 @@ public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialBearing - 22)) {
+        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialheading - 40)) {
             robot.rrMotor.setPower(-0.5);
             robot.rlMotor.setPower(0.5);
-            telemetry.addData("Original Bearing", robot.initialBearing);
-            telemetry.addData("Bearing", robot.compassSensor.getDirection());
+            telemetry.addData("Original Bearing", robot.initialheading);
+            telemetry.addData("Bearing", robot.gyro.getHeading());
             telemetry.addLine("Aiming Towards Line");
             telemetry.update();
             idle();
@@ -163,8 +169,8 @@ public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
         sleep(1000);
 
         //Adjust onto Line towards Beacon and Move Forward Until Set Distance from beacon
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialBearing - 65)) {
-            telemetry.addData("Original Bearing", robot.initialBearing);
+        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialheading - 90)) {
+            telemetry.addData("Original Bearing", robot.initialheading);
             telemetry.addData("Bearing", robot.compassSensor.getDirection());
             telemetry.addLine("Aiming Towards Beacon");
             robot.rrMotor.setPower(-0.5);
@@ -175,20 +181,6 @@ public class ProutBotAutoDriveToLine_LinearREDTEAM extends LinearOpMode {
         robot.rlMotor.setPower(0.0);
         sleep(1000);
 
-
-        /*
-        while (opModeIsActive() && (robot.frontDis.getUltrasonicLevel() > 25 || robot.frontDis.getUltrasonicLevel() == 0)) {
-            robot.rrMotor.setPower(-0.2);
-            robot.rlMotor.setPower(-0.2);
-
-            telemetry.addData("Front Distance", robot.frontDis.getUltrasonicLevel());
-            telemetry.update();
-            idle();
-        }
-        robot.rrMotor.setPower(0.0);
-        robot.rlMotor.setPower(0.0);
-        sleep(1000);
-        */
 
         //Analyze colors and Press Respective Beacon (**Color Sensor is on Right Side**On Red Team**)
         runtime.reset();
