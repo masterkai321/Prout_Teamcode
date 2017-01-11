@@ -54,6 +54,7 @@ public class HardwareProutBot
     public double PITCH_POWER  = 0.12;
     public int heading = 0;
     public int initialheading;
+    public double initialBearing;
 
 
 
@@ -193,6 +194,7 @@ public class HardwareProutBot
 
             gyro.calibrate();
             initialheading = gyro.getHeading();
+            initialBearing = compassSensor.getDirection();
 
 
 
