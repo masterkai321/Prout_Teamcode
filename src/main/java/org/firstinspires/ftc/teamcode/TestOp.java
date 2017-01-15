@@ -50,11 +50,11 @@ import com.qualcomm.robotcore.util.Range;
  * It also opens and closes the tilts slowly using the left and right Bumper buttons.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * Remove or comment out the @Disabled line to add this opmode to the  Driver Station OpMode list
  */
 
 @TeleOp(name="ProutBot: Test", group="ProutBot")
-@Disabled
+
 public class TestOp extends OpMode{
 
     /* Declare OpMode members. */
@@ -109,26 +109,24 @@ public class TestOp extends OpMode{
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         joysticky = -gamepad1.left_stick_y;
-        //robot.testMotor.setPower(joysticky);
+        robot.testMotor.setPower(joysticky);
 
-        telemetry.addData("Distance from Wall:", robot.distance.getUltrasonicLevel());
-        telemetry.addData("Bearing:", robot.comp.getDirection());
 
-        /*Use gamepad left & right Bumpers to tilt object tray
+        //Use gamepad left & right Bumpers to tilt object tray
         if (gamepad1.right_bumper)
             servoOffset += SERVO_SPEED;
         else if (gamepad1.left_bumper)
             servoOffset -= SERVO_SPEED;
 
         // Move tilt servo to new position.
-        //servoOffset = Range.clip(servoOffset, -0.5, 0.5);
+        servoOffset = Range.clip(servoOffset, -0.5, 0.5);
         robot.testServo.setPosition(robot.MID_SERVO + servoOffset);
 
 
         // Send telemetry message to signify robot running;
-            //telemetry.addData("test servo",  "Offset = %.2f", servoOffset);
-        telemetry.addData("potato",  "%.2f", joysticky);
-        */
+        telemetry.addData("test servo",  "Offset = %.2f", servoOffset);
+        telemetry.addData("test motor",  "%.2f", joysticky);
+
         telemetry.update();
 
     }

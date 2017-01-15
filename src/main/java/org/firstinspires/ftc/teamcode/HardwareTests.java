@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.Sensor;
+
 import com.qualcomm.hardware.hitechnic.HiTechnicNxtCompassSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -45,8 +47,9 @@ public class HardwareTests
 
     //public Servo testServo    = null;
 
-    public UltrasonicSensor distance = null;
-    public CompassSensor comp        = null;
+
+    public DcMotor testMotor;
+    public Servo testServo;
 
 
     public static final double MID_SERVO       =  0.5 ;
@@ -68,10 +71,8 @@ public class HardwareTests
         hwMap = ahwMap;
 
 
-        distance = hwMap.ultrasonicSensor.get("front dis");
-        comp = hwMap.compassSensor.get("compass");
 
-        /* Define and Initialize Motors
+        // Define and Initialize Motors
 
         testMotor = hwMap.dcMotor.get("test motor");
         testMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -86,7 +87,7 @@ public class HardwareTests
 
         testServo.setPosition(MID_SERVO);
 
-        */
+
 
         /***
          *

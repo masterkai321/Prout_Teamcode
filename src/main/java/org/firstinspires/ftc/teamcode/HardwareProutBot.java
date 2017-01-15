@@ -78,18 +78,7 @@ public class HardwareProutBot
     private ElapsedTime period  = new ElapsedTime();
     private ElapsedTime timing = new ElapsedTime();
 
-    public void SetHeading(double current, double desired) {
-        if (current > desired) { //Adjust Left
-            while (current > desired) {
-                rrMotor.setPower(0.5);
-                rlMotor.setPower(0.0);
-            }
-        } else if (current < desired) { //Adjust Right
-            while (current < desired) {
-                rrMotor.setPower(0.0);
-                rlMotor.setPower(0.5);
-            }
-        }
+    public void SetHeading(int target) {
     }
 
     public void ShootParticle(double power, double firstrev, double secondrev) {
@@ -192,8 +181,7 @@ public class HardwareProutBot
             buttonServo = hwMap.servo.get("button servo");
             buttonServo.setPosition(0.0);
 
-            gyro.calibrate();
-            initialheading = gyro.getHeading();
+
             initialBearing = compassSensor.getDirection();
 
 

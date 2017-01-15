@@ -95,6 +95,23 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
+        // start calibrating the gyro.
+        robot.gyro.calibrate();
+        telemetry.addData(">", "Gyro Calibrating. Do Not move!");
+        telemetry.update();
+
+
+        // make sure the gyro is calibrated.
+        while (!isStopRequested() && robot.gyro.isCalibrating())  {
+            sleep(50);
+            idle();
+        }
+        telemetry.addData(">", "Gyro Calibrated.  Press Start.");
+        telemetry.update();
+
+        robot.initialheading = robot.gyro.getHeading();
+
+
         // Wait for the game to start (driver presses PLAY)
         while (!isStarted()) {
 
@@ -105,29 +122,16 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
             telemetry.addData("Back Distance", robot.backDis.getUltrasonicLevel());
             telemetry.addData("Front Distance", robot.frontDis.getUltrasonicLevel());
             telemetry.addData("Original Heading", robot.initialheading);
-
-            // start calibrating the gyro.
-            telemetry.addData(">", "Gyro Calibrating. Do Not move!");
-            telemetry.update();
-
-
-            // make sure the gyro is calibrated.
-            while (!isStopRequested() && robot.gyro.isCalibrating())  {
-                sleep(50);
-                idle();
-            }
-
-            telemetry.addData(">", "Gyro Calibrated.  Press Start.");
-            telemetry.update();
+            telemetry.addData("Current Heading", robot.gyro.getIntegratedZValue());
 
             telemetry.update();
             idle();
         }
 
         // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.gyro.getHeading() > robot.initialheading - 10)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 10)) {
 
-            robot.rrMotor.setPower(-0.5);
+            robot.rrMotor.setPower(-0.3);
             robot.rlMotor.setPower(0.1);
 
             telemetry.addData("Leg 1: %2.5f Sec Elapsed", runtime.seconds());
@@ -139,13 +143,14 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
         }
         robot.rrMotor.setPower(0.0);
         robot.rlMotor.setPower(0.0);
-        robot.ShootParticle(0.14, 4.0, 3.0);
+        //robot.ShootParticle(0.14, 4.0, 3.0);
+        sleep(1000);
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialheading - 40)) {
-            robot.rrMotor.setPower(-0.5);
-            robot.rlMotor.setPower(0.5);
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 40)) {
+            robot.rrMotor.setPower(-0.3);
+            robot.rlMotor.setPower(0.3);
             telemetry.addData("Original Bearing", robot.initialheading);
             telemetry.addData("Bearing", robot.gyro.getHeading());
             telemetry.addLine("Aiming Towards Line");
@@ -156,7 +161,7 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
         robot.rlMotor.setPower(0.0);
 
         //Go Until White Line is Found
-        while (opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+        while (opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD) ) {
             robot.rrMotor.setPower(-0.3);
             robot.rlMotor.setPower(-0.3);
             telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
@@ -169,12 +174,12 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
         sleep(1000);
 
         //Adjust onto Line towards Beacon and Move Forward Until Set Distance from beacon
-        while (opModeIsActive() && (robot.compassSensor.getDirection() > robot.initialheading - 90)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 90)) {
             telemetry.addData("Original Bearing", robot.initialheading);
             telemetry.addData("Bearing", robot.compassSensor.getDirection());
             telemetry.addLine("Aiming Towards Beacon");
-            robot.rrMotor.setPower(-0.5);
-            robot.rlMotor.setPower(0.5);
+            robot.rrMotor.setPower(-0.3);
+            robot.rlMotor.setPower(0.3);
             telemetry.update();
         }
         robot.rrMotor.setPower(0.0);
