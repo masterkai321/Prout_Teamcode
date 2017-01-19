@@ -63,11 +63,12 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
     /* Declare OpMode members. */
     HardwareProutBot         robot   = new HardwareProutBot();   // Use a Proutbot's hardware
     private ElapsedTime              runtime = new ElapsedTime();
+    boolean rightIsRed = false;
 
 
     // OpticalDistanceSensor   lightSensor;   // Alternative MR ODS sensor
 
-    static final double     cWHITE_THRESHOLD = 0.3;
+    static final double     cWHITE_THRESHOLD = 0.25;
     static final double     lWhite_THRESHOLD = 0.165;
     static final double     rWHITE_THRESHOLD = 0.23;
     static final double     APPROACH_SPEED  = -0.5;
@@ -129,26 +130,26 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
         }
 
         // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -10)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -3)) {
 
             robot.rrMotor.setPower(0.1);
             robot.rlMotor.setPower(-0.3);
 
             telemetry.addData("Leg 1: %2.5f Sec Elapsed", runtime.seconds());
             telemetry.addData("Original Bearing", robot.initialheading);
-            telemetry.addData("Bearing", robot.gyro.getHeading());
+            telemetry.addData("Bearing", robot.gyro.getIntegratedZValue());
             telemetry.addLine("Aiming Towards Vortex");
             telemetry.update();
             idle();
         }
         robot.rrMotor.setPower(0.0);
         robot.rlMotor.setPower(0.0);
-        //robot.ShootParticle(0.14, 4.0, 3.0);
+        robot.ShootParticle(0.13, 4.0, 3.0);
         sleep(1000);
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -40)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -38)) {
             robot.rlMotor.setPower(-0.3);
             robot.rrMotor.setPower(0.3);
             telemetry.addData("Original Bearing", robot.initialheading);
@@ -162,21 +163,41 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
 
         //Go Until White Line is Found
         while (opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
-            robot.rrMotor.setPower(-0.3);
-            robot.rlMotor.setPower(-0.3);
-            telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
-            telemetry.addLine("Looking for Line");
-            telemetry.update();
-            idle();
+            while (Math.abs(robot.gyro.getIntegratedZValue() - 38) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+                robot.rrMotor.setPower(-0.3);
+                robot.rlMotor.setPower(-0.3);
+                telemetry.addData("heading", robot.gyro.getIntegratedZValue());
+                telemetry.update();
+            }
+            while (Math.abs(robot.gyro.getIntegratedZValue() - 38) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+                if (robot.gyro.getIntegratedZValue() < -38) {
+                    robot.rrMotor.setPower(-0.5);
+                    robot.rlMotor.setPower(-0.25);
+                    telemetry.addData("heading", robot.gyro.getIntegratedZValue());
+                    telemetry.addLine("adjust left");
+                    telemetry.update();
+                }
+                if (robot.gyro.getIntegratedZValue() > -38) {
+                    robot.rrMotor.setPower(-0.25);
+                    robot.rlMotor.setPower(-0.5);
+                    telemetry.addLine("right");
+                    telemetry.addData("heading", robot.gyro.getIntegratedZValue());
+                    telemetry.update();
+                }
+                telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
+                telemetry.addLine("Looking for Line");
+                telemetry.update();
+                idle();
+            }
         }
         robot.rrMotor.setPower(0.0);
         robot.rlMotor.setPower(0.0);
         sleep(1000);
 
         //Adjust onto Line towards Beacon and Move Forward Until Set Distance from beacon
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -90)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -85)) {
             telemetry.addData("Original Heading", robot.initialheading);
-            telemetry.addData("Bearing", robot.gyro.getHeading());
+            telemetry.addData("Bearing", robot.gyro.getIntegratedZValue());
             telemetry.addLine("Aiming Towards Beacon");
             robot.rlMotor.setPower(-0.3);
             robot.rrMotor.setPower(0.3);
@@ -197,30 +218,29 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
             telemetry.addLine("Analyzing Beacon");
 
 
-            if (robot.colorSensor.red() < robot.colorSensor.blue()) {
+            if (robot.colorSensor.red() < robot.colorSensor.blue() && !rightIsRed) {
                 robot.buttonServo.setPosition(robot.RIGHT_BUTTON);
+                sleep(1000);
                 robot.rrMotor.setPower(-0.2);
                 robot.rlMotor.setPower(-0.2);
                 telemetry.addLine("Pressing Right Button");
                 //Press Right Button
             } else if (robot.colorSensor.blue() < robot.colorSensor.red()) {
                 robot.buttonServo.setPosition(robot.LEFT_BUTTON);
+                sleep(1000);
                 robot.rlMotor.setPower(-0.2);
                 robot.rrMotor.setPower(-0.2);
                 telemetry.addLine("Pressing Left Button");
+                rightIsRed = true;
                 //Press Left Button
             }
 
             telemetry.update();
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
-        //Turn towards Center Vortex and Go
 
-
-        //Drive until Ball is moved and Robot is on Center Vortex --> Stop
-
-        sleep(1000);
-        runtime.reset();
-
+        //Turn towards Center Vortex and Go until 30s is up
+        robot.rrMotor.setPower(-1);
+        robot.rlMotor.setPower(-1);
     }
 }

@@ -89,7 +89,7 @@ public class HardwareProutBot
         timing.reset();
         while (timing.seconds() < 0.7) {
             gateServo.setPosition(GATE_OPEN);
-            loadbrushMotor.setPower(BRUSH_POWER);
+            loadbrushMotor.setPower(0.3);
         }
         gateServo.setPosition(GATE_CLOSED);
         loadbrushMotor.setPower(0.0);
@@ -179,7 +179,7 @@ public class HardwareProutBot
             gateServo.setPosition(GATE_CLOSED);
 
             buttonServo = hwMap.servo.get("button servo");
-            buttonServo.setPosition(0.0);
+            buttonServo.setPosition(0.5);
 
 
             initialBearing = compassSensor.getDirection();
