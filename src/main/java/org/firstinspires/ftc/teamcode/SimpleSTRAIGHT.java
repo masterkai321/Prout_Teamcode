@@ -98,6 +98,8 @@ public class SimpleSTRAIGHT extends LinearOpMode {
             // Display the light level while we are waiting to start
             telemetry.addData("R Light Level", robot.rlightSensor.getLightDetected());
             telemetry.addData("L Light Level", robot.llightSensor.getLightDetected());
+            telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
+
             telemetry.addData("Back Distance", robot.backDis.getUltrasonicLevel());
             telemetry.addData("Front Distance", robot.frontDis.getUltrasonicLevel());
             telemetry.addData("Original Bearing", robot.initialBearing);
@@ -108,13 +110,11 @@ public class SimpleSTRAIGHT extends LinearOpMode {
         }
 
         robot.ShootParticle(robot.PITCH_POWER, 4.0, 3.0);
+        sleep(5000);
 
-        runtime.reset();
-        while (opModeIsActive() && runtime.seconds() < 15) {
-            robot.rrMotor.setPower(-1.0);
-            robot.rlMotor.setPower(-1.0);
-        }
 
+        robot.rrMotor.setPower(0);
+        robot.rlMotor.setPower(0);
 
 
     }

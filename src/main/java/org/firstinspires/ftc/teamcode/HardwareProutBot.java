@@ -51,7 +51,7 @@ public class HardwareProutBot
     public static final double DRIVE_POWER  = 1.0;
     public static final double LEFT_BUTTON = 0.0;
     public static final double RIGHT_BUTTON = 0.9;
-    public double PITCH_POWER  = 0.12;
+    public double PITCH_POWER  = 0.10;
     public int heading = 0;
     public int initialheading;
     public double initialBearing;
@@ -99,9 +99,9 @@ public class HardwareProutBot
             pitchMotor.setPower(power);
         }
         timing.reset();
-        while (timing.seconds() < 1.0) {
+        while (timing.seconds() < 2.0) {
             gateServo.setPosition(GATE_OPEN);
-            loadbrushMotor.setPower(BRUSH_POWER);
+            loadbrushMotor.setPower(0.3);
         }
         gateServo.setPosition(GATE_CLOSED);
         loadbrushMotor.setPower(0.0);

@@ -58,7 +58,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="ProutBot: Gyro Drive To Line RED", group="ProutBot")
 
-public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
+public class ProutBotGyroDriveToLine_LinearREDTEAM_ALT extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareProutBot         robot   = new HardwareProutBot();   // Use a Proutbot's hardware
@@ -130,10 +130,10 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
         }
 
         // Aim the Robot towards the Vortex and Shoot Twice
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 5)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -5)) {
 
-            robot.rrMotor.setPower(-0.3);
-            robot.rlMotor.setPower(0.1);
+            robot.rlMotor.setPower(-0.3);
+            robot.rrMotor.setPower(0.1);
 
             telemetry.addData("Leg 1: %2.5f Sec Elapsed", runtime.seconds());
             telemetry.addData("Original Bearing", robot.initialheading);
@@ -149,7 +149,7 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 41)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 20)) {
             robot.rrMotor.setPower(-0.3);
             robot.rlMotor.setPower(0.3);
             telemetry.addData("Original Bearing", robot.initialheading);
@@ -166,21 +166,21 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM extends LinearOpMode {
             telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
             telemetry.addLine("Looking for Line");
             telemetry.update();
-            while (Math.abs(robot.gyro.getIntegratedZValue()-41) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD) ) {
+            while (Math.abs(robot.gyro.getIntegratedZValue()-20) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD) ) {
                 robot.rrMotor.setPower(-0.2);
                 robot.rlMotor.setPower(-0.2);
                 telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                 telemetry.update();
             }
             while (Math.abs(robot.gyro.getIntegratedZValue()-41) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
-                if (robot.gyro.getIntegratedZValue() < 41) {
+                if (robot.gyro.getIntegratedZValue() < 20) {
                     robot.rrMotor.setPower(-0.3);
                     robot.rlMotor.setPower(-0.1);
                     telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                     telemetry.addLine("adjust left");
                     telemetry.update();
                 }
-                if (robot.gyro.getIntegratedZValue() > 41) {
+                if (robot.gyro.getIntegratedZValue() > 20) {
                     robot.rrMotor.setPower(-0.1);
                     robot.rlMotor.setPower(-0.3);
                     telemetry.addLine("right");
