@@ -56,7 +56,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ProutBot: Gyro Drive To Line BLUE ALT", group="ProutBot")
+@Autonomous(name="ProutBot: Gyro Drive To Line BLUE", group="ProutBot")
 
 public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
 

@@ -149,7 +149,7 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM_ALT extends LinearOpMode {
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 20)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() < 24)) {
             robot.rrMotor.setPower(-0.3);
             robot.rlMotor.setPower(0.3);
             telemetry.addData("Original Bearing", robot.initialheading);
@@ -166,21 +166,21 @@ public class ProutBotGyroDriveToLine_LinearREDTEAM_ALT extends LinearOpMode {
             telemetry.addData("C Light Level", robot.clightSensor.getLightDetected());
             telemetry.addLine("Looking for Line");
             telemetry.update();
-            while (Math.abs(robot.gyro.getIntegratedZValue()-20) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD) ) {
+            while (Math.abs(robot.gyro.getIntegratedZValue()-25) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD) ) {
                 robot.rrMotor.setPower(-0.2);
                 robot.rlMotor.setPower(-0.2);
                 telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                 telemetry.update();
             }
-            while (Math.abs(robot.gyro.getIntegratedZValue()-41) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
-                if (robot.gyro.getIntegratedZValue() < 20) {
+            while (Math.abs(robot.gyro.getIntegratedZValue()-25) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+                if (robot.gyro.getIntegratedZValue() < 25) {
                     robot.rrMotor.setPower(-0.3);
                     robot.rlMotor.setPower(-0.1);
                     telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                     telemetry.addLine("adjust left");
                     telemetry.update();
                 }
-                if (robot.gyro.getIntegratedZValue() > 20) {
+                if (robot.gyro.getIntegratedZValue() > 25) {
                     robot.rrMotor.setPower(-0.1);
                     robot.rlMotor.setPower(-0.3);
                     telemetry.addLine("right");
