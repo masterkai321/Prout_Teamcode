@@ -149,7 +149,7 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
 
 
         //Aim Towards Beacons
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -41)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -40)) {
             robot.rlMotor.setPower(-0.3);
             robot.rrMotor.setPower(0.3);
             telemetry.addData("Original Bearing", robot.initialheading);
@@ -163,21 +163,21 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
 
         //Go Until White Line is Found
         while (opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
-            while (Math.abs(robot.gyro.getIntegratedZValue() - 41) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+            while (Math.abs(robot.gyro.getIntegratedZValue() - 40) <= 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
                 robot.rrMotor.setPower(-0.2);
                 robot.rlMotor.setPower(-0.2);
                 telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                 telemetry.update();
             }
-            while (Math.abs(robot.gyro.getIntegratedZValue() - 41) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
-                if (robot.gyro.getIntegratedZValue() < -41) {
+            while (Math.abs(robot.gyro.getIntegratedZValue() - 40) > 1 && opModeIsActive() && (robot.clightSensor.getLightDetected() < cWHITE_THRESHOLD)) {
+                if (robot.gyro.getIntegratedZValue() < -40) {
                     robot.rrMotor.setPower(-0.3);
                     robot.rlMotor.setPower(-0.1);
                     telemetry.addData("heading", robot.gyro.getIntegratedZValue());
                     telemetry.addLine("adjust left");
                     telemetry.update();
                 }
-                if (robot.gyro.getIntegratedZValue() > -41) {
+                if (robot.gyro.getIntegratedZValue() > -40) {
                     robot.rrMotor.setPower(-0.1);
                     robot.rlMotor.setPower(-0.3);
                     telemetry.addLine("right");
@@ -195,12 +195,12 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM extends LinearOpMode {
         sleep(1000);
 
         //Adjust onto Line towards Beacon and Move Forward Until Set Distance from beacon
-        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -85)) {
+        while (opModeIsActive() && (robot.gyro.getIntegratedZValue() > -80)) {
             telemetry.addData("Original Heading", robot.initialheading);
             telemetry.addData("Bearing", robot.gyro.getIntegratedZValue());
             telemetry.addLine("Aiming Towards Beacon");
-            robot.rlMotor.setPower(-0.2);
-            robot.rrMotor.setPower(1);
+            robot.rlMotor.setPower(-0.3);
+            robot.rrMotor.setPower(0.4);
             telemetry.update();
         }
         robot.rrMotor.setPower(0.0);

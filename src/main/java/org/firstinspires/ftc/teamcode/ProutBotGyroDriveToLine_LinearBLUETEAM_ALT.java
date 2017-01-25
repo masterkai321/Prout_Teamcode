@@ -199,8 +199,8 @@ public class ProutBotGyroDriveToLine_LinearBLUETEAM_ALT extends LinearOpMode {
             telemetry.addData("Original Heading", robot.initialheading);
             telemetry.addData("Bearing", robot.gyro.getIntegratedZValue());
             telemetry.addLine("Aiming Towards Beacon");
-            robot.rlMotor.setPower(-0.2);
-            robot.rrMotor.setPower(1);
+            robot.rlMotor.setPower(-0.3);
+            robot.rrMotor.setPower(0.4);
             telemetry.update();
         }
         robot.rrMotor.setPower(0.0);
